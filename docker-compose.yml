@@ -1,0 +1,32 @@
+version: '3'
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - '4000:4000'
+    depends_on:
+      - auth-db
+
+  invoice-service:
+    build: ./invoice-service
+    ports:
+      - '4001:4001'
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - '4002:4002'
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - '3000:3000'
+    depends_on:
+      - auth-service
+      - invoice-service
+      - notification-service
+
+  auth-db:
+    image: mongo
+    ports:
+      - '27017:27017'
